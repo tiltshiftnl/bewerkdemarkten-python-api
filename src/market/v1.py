@@ -1,4 +1,6 @@
+import os
 from fastapi import APIRouter, Depends, Request, HTTPException, File, UploadFile
+from fastapi.responses import FileResponse
 from typing import List
 from ..dependencies import get_user
 from ..models.market import Branche, Geography, Location, Rows, Page
@@ -85,17 +87,21 @@ def post_market_day_pages(market_day: str, user: str = Depends(get_user)):
 
 @router.get("/api/v1/markt/{market_day}/download/pdf", response_model_exclude_none=True, response_model_by_alias=True)
 def get_market_day_pdf(market_day: str, user: str = Depends(get_user)):
-    return "Not implemented"
+    if os.path.isfile(pdfdir + "kaart-" + market_day + ".pdf"):
+        return FileResponse(pdfdir + "kaart-" + market_day + ".pdf")
 
+# Be aware! Requires python-multipart to be installed
+@router.post("/api/v1/markt/{market_day}/upload/pdf")
+async def post_market_day_pdf(market_day: str, file: UploadFile = File(...), user: str = Depends(get_user)):
+    file_location = f"{pdfdir}kaart-{market_day}.pdf"
+    with open(file_location, "wb+") as file_object:
+        file_object.write(await file.read())
 
-@router.post("/api/v1/markt/{market_day}/upload/pdf", response_model_exclude_none=True, response_model_by_alias=True)
-async def post_market_day_pdf(market_day: str, pdf: UploadFile = File(...), user: str = Depends(get_user)):
-    with open(pdfdir + 'kaart-' + market_day + '.pdf','wb+') as f:
-        f.write(pdf.file.read())
-        f.close()
-    return "Will it work?"
+    return {'filename': file.filename}
 
 
 @router.delete("/api/v1/markt/{market_day}/delete/pdf", response_model_exclude_none=True, response_model_by_alias=True)
 def delete_market_day_pdf(market_day: str, user: str = Depends(get_user)):
-    return "Not implemented"
+    if os.path.isfile(pdfdir + "kaart-" + market_day + ".pdf"):
+        os.remove(pdfdir + "kaart-" + market_day + ".pdf")
+        return "ok"
