@@ -4,8 +4,8 @@ from pydantic import BaseModel, Field
 
 class Branche(BaseModel):
     branche_id: str = Field(..., alias='brancheId')
-    mandatory: Optional[bool] = Field(..., alias='verplicht')
-    maximum: Optional[int] = Field(..., alias='maximumPlaatsen')
+    mandatory: Optional[bool] = Field(alias='verplicht')
+    maximum: Optional[int] = Field(alias='maximumPlaatsen')
 
 
 class Obstacle(BaseModel):
@@ -21,7 +21,7 @@ class Geography(BaseModel):
 class Location(BaseModel):
     place_id: str = Field(..., alias='plaatsId')
     branches: Optional[List[str]]
-    options: Optional[List[str]] = Field(..., alias='verkoopinrichting')
+    options: Optional[List[str]] = Field(alias='verkoopinrichting')
     properties: Optional[List[str]]
 
 

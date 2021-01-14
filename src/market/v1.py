@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Request, HTTPException
+from fastapi import APIRouter, Depends, Request, HTTPException, File, UploadFile
 from typing import List
 from ..dependencies import get_user
 from ..models.market import Branche, Geography, Location, Rows, Page
@@ -7,13 +7,13 @@ router = APIRouter()
 
 
 basedir = '/tmp/bewerkdemarkten-repo/config/markt/'
-
+pdfdir = '/tmp/bewerkdemarkten-repo/dist/pdf/'
 
 def read_file(filename: str):
     return "Not implemented"
 
 
-@router.get("/api/v1/markt/{market_day}/branches.json", response_model=List[Branche], response_model_exclude_none=True, response_model_by_alias=False)
+@router.get("/api/v1/markt/{market_day}/branches.json", response_model=List[Branche], response_model_exclude_none=True, response_model_by_alias=True)
 def get_market_day_branches(market_day: str, user: str = Depends(get_user)):
     with open(basedir + market_day + "/" + 'branches.json', 'r') as myfile:
         data = myfile.read()
@@ -22,12 +22,12 @@ def get_market_day_branches(market_day: str, user: str = Depends(get_user)):
     return obj
 
 
-@router.post("/api/v1/markt/{market_day}/branches.json", response_model_exclude_none=True, response_model_by_alias=False)
+@router.post("/api/v1/markt/{market_day}/branches.json", response_model_exclude_none=True, response_model_by_alias=True)
 def post_market_day_branches(market_day: str, user: str = Depends(get_user)):
     return "Not implemented"
 
 
-@router.get("/api/v1/markt/{market_day}/geografie.json", response_model=Geography, response_model_exclude_none=True, response_model_by_alias=False)
+@router.get("/api/v1/markt/{market_day}/geografie.json", response_model=Geography, response_model_exclude_none=True, response_model_by_alias=True)
 def get_market_day_geografie(market_day: str, user: str = Depends(get_user)):
     with open(basedir + market_day + "/" + 'geografie.json', 'r') as myfile:
         data = myfile.read()
@@ -36,12 +36,12 @@ def get_market_day_geografie(market_day: str, user: str = Depends(get_user)):
     return obj
 
 
-@router.post("/api/v1/markt/{market_day}/geografie.json", response_model_exclude_none=True, response_model_by_alias=False)
+@router.post("/api/v1/markt/{market_day}/geografie.json", response_model_exclude_none=True, response_model_by_alias=True)
 def post_market_day_geografie(market_day: str, user: str = Depends(get_user)):
     return "Not implemented"
 
 
-@router.get("/api/v1/markt/{market_day}/locaties.json", response_model=List[Location], response_model_exclude_none=True, response_model_by_alias=False)
+@router.get("/api/v1/markt/{market_day}/locaties.json", response_model=List[Location], response_model_exclude_none=True, response_model_by_alias=True)
 def get_market_day_locations(market_day: str, user: str = Depends(get_user)):
     with open(basedir + market_day + "/" + 'locaties.json', 'r') as myfile:
         data = myfile.read()
@@ -50,12 +50,12 @@ def get_market_day_locations(market_day: str, user: str = Depends(get_user)):
     return obj
 
 
-@router.post("/api/v1/markt/{market_day}/locaties.json", response_model_exclude_none=True, response_model_by_alias=False)
+@router.post("/api/v1/markt/{market_day}/locaties.json", response_model_exclude_none=True, response_model_by_alias=True)
 def post_market_day_locations(market_day: str, user: str = Depends(get_user)):
     return "Not implemented"
 
 
-@router.get("/api/v1/markt/{market_day}/markt.json", response_model=Rows, response_model_exclude_none=True, response_model_by_alias=False)
+@router.get("/api/v1/markt/{market_day}/markt.json", response_model=Rows, response_model_exclude_none=True, response_model_by_alias=True)
 def get_market_day_rows(market_day: str, user: str = Depends(get_user)):
     with open(basedir + market_day + "/" + 'markt.json', 'r') as myfile:
         data = myfile.read()
@@ -64,12 +64,12 @@ def get_market_day_rows(market_day: str, user: str = Depends(get_user)):
     return obj
 
 
-@router.post("/api/v1/markt/{market_day}/markt.json", response_model_exclude_none=True, response_model_by_alias=False)
+@router.post("/api/v1/markt/{market_day}/markt.json", response_model_exclude_none=True, response_model_by_alias=True)
 def post_market_day_rows(market_day: str, user: str = Depends(get_user)):
     return "Not implemented"
 
 
-@router.get("/api/v1/markt/{market_day}/paginas.json", response_model=List[Page], response_model_exclude_none=True, response_model_by_alias=False)
+@router.get("/api/v1/markt/{market_day}/paginas.json", response_model=List[Page], response_model_exclude_none=True, response_model_by_alias=True)
 def get_market_day_pages(market_day: str, user: str = Depends(get_user)):
     with open(basedir + market_day + "/" + 'paginas.json', 'r') as myfile:
         data = myfile.read()
@@ -78,21 +78,24 @@ def get_market_day_pages(market_day: str, user: str = Depends(get_user)):
     return obj
 
 
-@router.post("/api/v1/markt/{market_day}/paginas.json", response_model_exclude_none=True, response_model_by_alias=False)
+@router.post("/api/v1/markt/{market_day}/paginas.json", response_model_exclude_none=True, response_model_by_alias=True)
 def post_market_day_pages(market_day: str, user: str = Depends(get_user)):
     return "Not implemented"
 
 
-@router.get("/api/v1/markt/{market_day}/download/pdf", response_model_exclude_none=True, response_model_by_alias=False)
+@router.get("/api/v1/markt/{market_day}/download/pdf", response_model_exclude_none=True, response_model_by_alias=True)
 def get_market_day_pdf(market_day: str, user: str = Depends(get_user)):
     return "Not implemented"
 
 
-@router.post("/api/v1/markt/{market_day}/upload/pdf", response_model_exclude_none=True, response_model_by_alias=False)
-def post_market_day_pdf(market_day: str, user: str = Depends(get_user)):
-    return "Not implemented"
+@router.post("/api/v1/markt/{market_day}/upload/pdf", response_model_exclude_none=True, response_model_by_alias=True)
+async def post_market_day_pdf(market_day: str, pdf: UploadFile = File(...), user: str = Depends(get_user)):
+    with open(pdfdir + 'kaart-' + market_day + '.pdf','wb+') as f:
+        f.write(pdf.file.read())
+        f.close()
+    return "Will it work?"
 
 
-@router.delete("/api/v1/markt/{market_day}/delete/pdf", response_model_exclude_none=True, response_model_by_alias=False)
+@router.delete("/api/v1/markt/{market_day}/delete/pdf", response_model_exclude_none=True, response_model_by_alias=True)
 def delete_market_day_pdf(market_day: str, user: str = Depends(get_user)):
     return "Not implemented"
