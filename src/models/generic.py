@@ -27,7 +27,7 @@ class Announcements(BaseModel):
     properties: Announcement = Field(...,alias='plaatsVoorkeuren')
 
 
-class Event(BaseModel):
+class MarketEvent(BaseModel):
     weekday: Optional[int] = None
     plan: Optional[Plan] = None
 
@@ -37,5 +37,5 @@ class Market(BaseModel):
     name: Optional[str] = None
     phase: Optional[str] = None
     plan: Optional[Plan] = None
-    events: Dict[str, Event]
+    events: Dict[str, MarketEvent]
 

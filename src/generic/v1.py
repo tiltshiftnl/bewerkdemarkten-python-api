@@ -8,6 +8,26 @@ router = APIRouter()
 basedir = '/tmp/bewerkdemarkten-repo/config/markt/'
 
 
+def set_market():
+    return "Not implemented"
+
+
+def find_pdf_file(filename: str):
+    return "Not implemented"
+
+
+def read_markets():
+    return "Not implemented"
+
+
+def read_file(filename: str):
+    return "Not implemented"
+
+##
+# Routes
+##
+
+
 @router.get("/api/v1/markt/mededelingen.json", response_model=Announcements, response_model_exclude_none=True, response_model_by_alias=True)
 def get_announcements(user: str = Depends(get_user)):
     with open(basedir + 'mededelingen.json', 'r') as myfile:
