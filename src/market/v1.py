@@ -2,6 +2,7 @@ import os
 import re
 from pathlib import Path
 from fastapi import APIRouter, Depends, Request, HTTPException, File, UploadFile
+from fastapi.encoders import jsonable_encoder
 from fastapi.responses import FileResponse
 from typing import List
 from ..dependencies import get_user
@@ -32,13 +33,22 @@ def get_market_day_branches(market_day: str, user: str = Depends(get_user)):
             obj = json.loads(data)
             return obj
         except FileNotFoundError:
-            raise HTTPException(status_code=404, detail=f"branches.json for {market_day} could not be found")
+            raise HTTPException(
+                status_code=404, detail=f"branches.json for {market_day} could not be found")
 
 
 @router.post("/api/v1/markt/{market_day}/branches.json", response_model_exclude_none=True, response_model_by_alias=True)
-def post_market_day_branches(market_day: str, user: str = Depends(get_user)):
+def post_market_day_branches(market_day: str, data: List[Branche], user: str = Depends(get_user)):
     if check_market_day(market_day):
-        raise HTTPException(status_code=501, detail="Not implemented")
+        # If item is an empty error, do nothing.
+        if len(data) == 0:
+            return []
+        else:
+            jsondata = jsonable_encoder(data)
+            with open(basedir + market_day + "/" + 'branches.json', 'w') as f:
+                json.dump(jsondata, f)
+
+        return data
 
 
 @router.get("/api/v1/markt/{market_day}/geografie.json", response_model=Geography, response_model_exclude_none=True, response_model_by_alias=True)
@@ -51,13 +61,18 @@ def get_market_day_geografie(market_day: str, user: str = Depends(get_user)):
             obj = json.loads(data)
             return obj
         except FileNotFoundError:
-            raise HTTPException(status_code=404, detail=f"geografie.json for {market_day} could not be found")
-    
+            raise HTTPException(
+                status_code=404, detail=f"geografie.json for {market_day} could not be found")
+
 
 @router.post("/api/v1/markt/{market_day}/geografie.json", response_model_exclude_none=True, response_model_by_alias=True)
-def post_market_day_geografie(market_day: str, user: str = Depends(get_user)):
+def post_market_day_geografie(market_day: str, data: Geography, user: str = Depends(get_user)):
     if check_market_day(market_day):
-        raise HTTPException(status_code=501, detail="Not implemented")
+        jsondata = jsonable_encoder(data)
+        with open(basedir + market_day + "/" + 'geografie.json', 'w') as f:
+            json.dump(jsondata, f)
+
+        return data
 
 
 @router.get("/api/v1/markt/{market_day}/locaties.json", response_model=List[Location], response_model_exclude_none=True, response_model_by_alias=True)
@@ -70,12 +85,22 @@ def get_market_day_locations(market_day: str, user: str = Depends(get_user)):
             obj = json.loads(data)
             return obj
         except FileNotFoundError:
-            raise HTTPException(status_code=404, detail=f"geografie.json for {market_day} could not be found")
+            raise HTTPException(
+                status_code=404, detail=f"geografie.json for {market_day} could not be found")
+
 
 @router.post("/api/v1/markt/{market_day}/locaties.json", response_model_exclude_none=True, response_model_by_alias=True)
-def post_market_day_locations(market_day: str, user: str = Depends(get_user)):
+def post_market_day_locations(market_day: str, data: List[Location], user: str = Depends(get_user)):
     if check_market_day(market_day):
-        raise HTTPException(status_code=501, detail="Not implemented")
+        # If item is an empty error, do nothing.
+        if len(data) == 0:
+            return []
+        else:
+            jsondata = jsonable_encoder(data)
+            with open(basedir + market_day + "/" + 'locaties.json', 'w') as f:
+                json.dump(jsondata, f)
+
+        return data
 
 
 @router.get("/api/v1/markt/{market_day}/markt.json", response_model=Rows, response_model_exclude_none=True, response_model_by_alias=True)
@@ -89,11 +114,13 @@ def get_market_day_rows(market_day: str, user: str = Depends(get_user)):
 
 
 @router.post("/api/v1/markt/{market_day}/markt.json", response_model_exclude_none=True, response_model_by_alias=True)
-def post_market_day_rows(market_day: str, user: str = Depends(get_user)):
+def post_market_day_rows(market_day: str, data: Rows, user: str = Depends(get_user)):
     if check_market_day(market_day):
-        raise HTTPException(status_code=501, detail="Not implemented")
+        jsondata = jsonable_encoder(data)
+        with open(basedir + market_day + "/" + 'markt.json', 'w') as f:
+            json.dump(jsondata, f)
 
-    
+        return data
 
 
 @router.get("/api/v1/markt/{market_day}/paginas.json", response_model=List[Page], response_model_exclude_none=True, response_model_by_alias=True)
@@ -106,12 +133,22 @@ def get_market_day_pages(market_day: str, user: str = Depends(get_user)):
             obj = json.loads(data)
             return obj
         except FileNotFoundError:
-            raise HTTPException(status_code=404, detail=f"geografie.json for {market_day} could not be found")
+            raise HTTPException(
+                status_code=404, detail=f"geografie.json for {market_day} could not be found")
+
 
 @router.post("/api/v1/markt/{market_day}/paginas.json", response_model_exclude_none=True, response_model_by_alias=True)
-def post_market_day_pages(market_day: str, user: str = Depends(get_user)):
+def post_market_day_pages(market_day: str, data: List[Page], user: str = Depends(get_user)):
     if check_market_day(market_day):
-        raise HTTPException(status_code=501, detail="Not implemented")
+        # If item is an empty error, do nothing.
+        if len(data) == 0:
+            return []
+        else:
+            jsondata = jsonable_encoder(data)
+            with open(basedir + market_day + "/" + 'paginas.json', 'w') as f:
+                json.dump(jsondata, f)
+
+        return data
 
 
 @router.get("/api/v1/markt/{market_day}/download/pdf")
@@ -120,7 +157,8 @@ def get_market_day_pdf(market_day: str, user: str = Depends(get_user)):
         if os.path.isfile(pdfdir + "kaart-" + market_day + ".pdf"):
             return FileResponse(pdfdir + "kaart-" + market_day + ".pdf")
 
-        raise HTTPException(status_code=404, detail="plan not found, nothing to download")
+        raise HTTPException(
+            status_code=404, detail="plan not found, nothing to download")
 
 
 # Be aware! Requires python-multipart to be installed
@@ -141,4 +179,5 @@ def delete_market_day_pdf(market_day: str, user: str = Depends(get_user)):
             os.remove(pdfdir + "kaart-" + market_day + ".pdf")
             return "ok"
 
-        raise HTTPException(status_code=404, detail="plan not found, nothing to delete")
+        raise HTTPException(
+            status_code=404, detail="plan not found, nothing to delete")

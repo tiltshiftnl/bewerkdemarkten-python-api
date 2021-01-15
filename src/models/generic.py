@@ -4,9 +4,9 @@ from pydantic import BaseModel, Field
 
 class Branche(BaseModel):
     branche_id: str = Field(...,alias='brancheId')
-    number: Optional[int] = None
-    description: Optional[str] = None
-    color: Optional[str] = None
+    number: Optional[int]
+    description: Optional[str]
+    color: Optional[str]
 
 
 class Plan(BaseModel):

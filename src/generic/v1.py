@@ -1,5 +1,6 @@
 import os
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, HTTPException
+from fastapi.encoders import jsonable_encoder
 from typing import List, Dict, Optional
 from ..models.generic import Branche, Announcements, Market, MarketEvent, Plan
 from ..dependencies import get_user
@@ -91,9 +92,17 @@ def get_branches(user: str = Depends(get_user)):
         raise HTTPException(status_code=404, detail="branches.json could not be found")
 
 
-@router.post("/api/v1/markt/branches.json", response_model_exclude_none=True, response_model_by_alias=True)
-def post_branches(user: str = Depends(get_user)):
-    raise HTTPException(status_code=501, detail="Not implemented")
+@router.post("/api/v1/markt/branches.json")
+def post_branches(data: List[Branche], user: str = Depends(get_user)):
+    # If item is an empty error, do nothing.
+    if len(data) == 0:
+        return []
+    else:
+        jsondata =jsonable_encoder(data)
+        with open(basedir + 'branches.json', 'w') as f:
+            json.dump(jsondata, f)
+
+    return data
 
 
 @router.get("/api/v1/markt/daysClosed.json", response_model=List[str])

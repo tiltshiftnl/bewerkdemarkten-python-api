@@ -17,7 +17,7 @@ def custom_openapi():
     openapi_schema = get_openapi(
         title="Bewerkdemarkten-api",
         version="0.8.1",
-        description="This is a the API for Bewerkdemarkten",
+        description="This is the API for Bewerkdemarkten",
         routes=app.routes,
     )
     app.openapi_schema = openapi_schema
