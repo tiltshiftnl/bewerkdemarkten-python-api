@@ -12,7 +12,7 @@ ENV REPOSITORY_DIR "/usr/src/app/data/bewerkdemarkten-repo"
 ENV USERS '{"demo": "test12345"}'
 
 RUN apt-get update && apt-get install -y \
-    gcc postgresql-client libpq-dev
+    gcc postgresql-client libpq-dev git
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
