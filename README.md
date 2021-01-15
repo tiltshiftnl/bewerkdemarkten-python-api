@@ -2,7 +2,7 @@
 An API to get remote data, cached in a database, for bewerkdemarkten
 
 ## Database migration
-`bewerkdemarkten.sh` executes the SQL files in the `sql/` directory, add new migrations in this directory and file
+<del>`bewerkdemarkten.sh` executes the SQL files in the `sql/` directory, add new migrations in this directory and file</del>
 
 ## How to start
 
@@ -10,7 +10,7 @@ An API to get remote data, cached in a database, for bewerkdemarkten
 
 - Create a Python 3 virtual env named `venv` and activate it.
 - Install requirements inside your virtual env with `python -m pip install -r requirements.txt`
-- Create a PostgreSQL database and user, setup PostGIS extension
+- <del>Create a PostgreSQL database and user, setup PostGIS extension</del>
 - Set up and customize the environment variabels, see below
 - Start application with `./bewerkdemarkten.sh`
 
@@ -30,9 +30,10 @@ An API to get remote data, cached in a database, for bewerkdemarkten
 ## Environment variables
 Set the following environment variabels before starting the application.
 
-    DATABASE_URL=postgresql://user:pass@127.0.0.1/bewerkdemarkten
+    <del>DATABASE_URL=postgresql://user:pass@127.0.0.1/bewerkdemarkten</del>
     USERS={"demo": "test12345"}
     BACKEND_CORS_ORIGINS_CSV=http://localhost,http://localhost:4200,http://localhost:3000
+    GIT_REPOSITORY=https://github.com/Amsterdam/fixxx-pakjekraam.git
 
 ### About USERS variabel
 
