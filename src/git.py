@@ -6,6 +6,6 @@ class Git:
         try:
             print(f'Using existing repo in {settings.REPOSITORY_DIR}')
             Repo(settings.REPOSITORY_DIR)
-        except expression as identifier:
+        except:
             print('Repo does not exist')
             Repo.clone_from(settings.GIT_REPOSITORY, settings.REPOSITORY_DIR)
