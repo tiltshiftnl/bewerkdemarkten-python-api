@@ -4,8 +4,8 @@ from .settings import settings
 class Git:
     def clone():
         try:
-            print('Using existing repo in /tmp/bewerkdemarkten-repo')
-            Repo('/tmp/bewerkdemarkten-repo')
+            print(f'Using existing repo in {settings.REPOSITORY_DIR}')
+            Repo(settings.REPOSITORY_DIR)
         except expression as identifier:
             print('Repo does not exist')
-            Repo.clone_from(settings.GIT_REPOSITORY, '/tmp/bewerkdemarkten-repo')
+            Repo.clone_from(settings.GIT_REPOSITORY, settings.REPOSITORY_DIR)
