@@ -1,4 +1,5 @@
 FROM python:3.8.5-slim
+# Python cannot be upgraded without fixing a libgeos error
 
 WORKDIR /usr/src/app
 
