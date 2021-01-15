@@ -8,7 +8,7 @@ from pydantic import AnyHttpUrl, BaseSettings, validator
 class Settings(BaseSettings):
     REPOSITORY_DIR = os.environ.get(
         'REPOSITORY_DIR', "/tmp/bewerkdemarkten-repo")
-    PDF_DIR = os.environ.get('PDF_DIR', f"{REPOSITORY_DIR}dist/pdf/")
+    PDF_DIR = os.environ.get('PDF_DIR', f"{REPOSITORY_DIR}/dist/pdf/")
     JSON_DIR = os.environ.get('JSON_DIR', f"{REPOSITORY_DIR}/config/markt/")
 
     GIT_REPOSITORY = os.environ.get(
